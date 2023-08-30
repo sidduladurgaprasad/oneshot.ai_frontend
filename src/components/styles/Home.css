@@ -1,31 +1,28 @@
 /* HomePage.css */
 .home-page {
+    z-index: -1;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.content {
-    display: flex;
-    flex-direction: row; /* Change to row for side-by-side layout */
+.container {
     margin-top: 20px;
-    width: 100%;
-    position: relative; /* Add relative positioning for proper absolute positioning */
-}
-
-.main-img {
-    flex: 1; /* Take up 60% width */
-    max-width: 60%; /* Limit the maximum width to 60% */
+  }
+  
+  .image-container {
+    text-align: center; /* Center the image within its column */
+  }
+  
+  .main-img {
+    max-width: 100%; /* Make the image take up the full width */
     height: auto;
-}
-
-.text-container {
-    position: absolute;
-    width: 45%;
-    left: 50%;
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.7);
-}
+  }
+  
+  .text-container {
+    padding: 20px; /* Add padding for better spacing */
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+  }
 
 .title {
     font-size: 45px;
@@ -82,10 +79,7 @@
         opacity: 1;
     }
 }
-/* Add your existing CSS code here */
-/* Add your existing CSS code here */
 
-/* Style for the "Get Started" button with timer animation */
 .getStartedButton {
     display: inline-block;
     padding: 12px 30px;
@@ -136,3 +130,64 @@
         transform: translateX(100%);
     }
 }
+/* Home.css */
+
+/* ... Existing CSS Rules ... */
+
+/* Add responsive styles */
+@media all and (max-width: 995px) {
+    .content {
+      flex-direction: column; /* Stack elements vertically on smaller screens */
+    }
+  
+    .main-img {
+      width: 100%; /* Make the image take up the full width */
+      max-width: 100%; /* Remove the max-width constraint */
+    }
+  
+    .text-container {
+      width: 100%; /* Take up full width */
+      padding: 20px; /* Add more padding for better spacing */
+      background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+    }
+  
+    .title {
+      font-size: 36px; /* Slightly smaller font size */
+      text-align: center; /* Center align the title */
+    }
+  
+    .button-container {
+      text-align: center; /* Center the button */
+      margin-top: 20px;
+    }
+  }
+  
+  /* Additional styles for larger screens */
+  @media all and (min-width: 996px) {
+    .content {
+      flex-direction: row; /* Revert to row layout */
+    }
+  
+    .main-img {
+      flex: 1; /* Take up 60% width */
+      max-width: 60%; /* Limit the maximum width to 60% */
+    }
+  
+    .text-container {
+      flex: 1; /* Take up remaining width */
+      padding: 40px; /* Increase padding for better spacing */
+      background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+    }
+  
+    .title {
+      font-size: 45px; /* Restore original font size */
+    }
+  
+   
+  
+    .button-container {
+      text-align: left; /* Align the button to the left */
+      margin-top: 40px; /* Adjust margin for larger spacing */
+    }
+  }
+  

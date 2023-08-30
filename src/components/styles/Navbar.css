@@ -1,15 +1,20 @@
   /* Navbar.css */
   .navbar {
       position: fixed;
+      z-index: 2;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      /* width: 98%;
+      width: 98%;
       margin-left: 1%;
-      margin-right: 1%; */
+      margin-right: 1%;
       padding: 10px 20px;
       background-color: #0062ffbb;
       color: white;
+    }
+
+    .navbar-left{
+      display: flex;
     }
     
     .navbar-icon {
@@ -33,12 +38,79 @@
       font-weight: bold;
     }
     
-    .greet{
-      position: absolute;
-      right: 28%;
-      font-size: 150%;
-      font-family: 'Roboto', sans-serif;
-      font-weight: bold;
-    }
+   /* Add these styles to your CSS */
+
+.greet {
+  margin-top: 1vw;
+  margin-left: 2%;
+  height: 10%;
+  display: flex;
+  align-items: center; /* Center vertically */
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff; /* White color */
+  animation: slideIn 1s forwards; /* Use the slideIn animation */
+  opacity: 0; 
+}
+
+@keyframes slideIn {
+  from {
+    transform:  translateX(-50%); /* Start from the center of the screen */
+    opacity: 0; /* Initially hidden */
+  }
+  to {
+    transform: translateX(0) translateY(0); /* Move to the final position */
+    opacity: 1; /* Fully visible */
+  }
+}
+    
     /* Add more styles as needed */
     
+    /* Navbar.css */
+
+/* ... Existing CSS Rules ... */
+
+/* Add responsive styles */
+@media all and (max-width: 995px) {
+  .navbar {
+    padding: 10px 5px; /* Adjust padding for smaller screens */
+  }
+  .navbar-right{
+    position: absolute;
+    right: 2%;
+  }
+  .navbar-icon {
+    margin-left: 2%;
+    width: 15%; /* Adjust icon size for smaller screens */
+    height: 15%;
+  }
+  
+  .greet {
+    font-size: 120%; /* Adjust font size for smaller screens */
+  }
+  
+  .navbar-links {
+    flex-direction: column; /* Stack navigation links vertically */
+    align-items: center; /* Center align the links */
+    background-color: rgba(0, 0, 0, 0.7); /* Add a background color */
+    position: absolute;
+    top: 70px; /* Adjust top position based on your design */
+    width: 100%; /* Expand to full width */
+    left: 0;
+    opacity: 0; /* Initially hide the links */
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .navbar-links.active {
+    opacity: 1; /* Show the links when active class is applied */
+  }
+  
+  .navbar-links li {
+    margin: 10px 0; /* Add spacing between links */
+  }
+  
+  .navbar-links a {
+    display: block; /* Make the links full width */
+    padding: 10px 0; /* Add padding to improve touch interaction */
+  }
+}

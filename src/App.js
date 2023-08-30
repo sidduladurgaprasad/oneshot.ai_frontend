@@ -11,7 +11,7 @@ import Chatbot from './components/ChatBot';
 
 
 function App() {
-  const [loggedUser, setLoggedUser] = useState("user");
+  const [loggedUser, setLoggedUser] = useState();
   const navigate = useNavigate()
 
   // Function to update the loggedUser state
