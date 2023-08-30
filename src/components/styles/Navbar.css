@@ -24,6 +24,7 @@
     }
     
     .navbar-links {
+      z-index: -2;
       list-style: none;
       display: flex;
     }
@@ -63,7 +64,21 @@
     opacity: 1; /* Fully visible */
   }
 }
-    
+
+.menu-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.menu-button:active {
+  color: #ffc107; /* Change color on hover */
+}
+
     /* Add more styles as needed */
     
     /* Navbar.css */
@@ -90,19 +105,21 @@
   }
   
   .navbar-links {
+    z-index: -2;
     flex-direction: column; /* Stack navigation links vertically */
-    align-items: center; /* Center align the links */
+    align-items: right; /* Center align the links */
     background-color: rgba(0, 0, 0, 0.7); /* Add a background color */
     position: absolute;
     top: 70px; /* Adjust top position based on your design */
-    width: 100%; /* Expand to full width */
-    left: 0;
-    opacity: 0; /* Initially hide the links */
+    width: 200%; /* Expand to full width */
+    right: 0%;; /* Initially hide the links */
     transition: opacity 0.3s ease-in-out;
+    visibility: hidden;
   }
   
   .navbar-links.active {
-    opacity: 1; /* Show the links when active class is applied */
+    z-index: 2;
+    visibility: visible; /* Show the links when active class is applied */
   }
   
   .navbar-links li {

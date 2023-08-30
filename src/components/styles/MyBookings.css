@@ -1,20 +1,23 @@
+/* MyBookings.css */
+
 .my-bookings-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  max-width: 800px; /* Limit maximum width */
-  margin: 0 auto; /* Center horizontally */
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-h1 {
+h2 {
   font-size: 24px;
   margin-bottom: 20px;
 }
 
 .booking-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 20px;
 }
 
@@ -24,9 +27,8 @@ h1 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   transition: transform 0.3s, box-shadow 0.3s;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex: 1;
+  min-width: 250px; /* Set a minimum width */
 }
 
 .booking-card:hover {
@@ -59,18 +61,28 @@ h1 {
 .delete-button:hover {
   background-color: #ff4545;
 }
-  /* Media query for smaller screens */
+
+/* Media queries for responsiveness */
+
+@media screen and (max-width: 992px) {
+  .booking-card {
+    min-width: calc(50% - 10px); /* Two cards in a row with a bit of spacing */
+  }
+}
+
 @media screen and (max-width: 768px) {
   .booking-cards {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-
-  h1 {
-    font-size: 20px;
-    margin-bottom: 15px;
+    display: block; /* Change to a block layout for mobile */
   }
 
   .booking-card {
-    padding: 15px;
+    width: 100%; /* Take up full width in mobile view */
+    margin-bottom: 15px; /* Add some spacing between rows */
+    padding: 15px; /* Adjust padding for mobile */
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
   }
 }

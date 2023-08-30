@@ -121,7 +121,10 @@ function SignUp() {
 
 
   return (
-    <div className="signup-container">
+    <div className="container">
+      <div className="row justify-content-center">
+        <div className="col-md-6 col-lg-4">
+          <div className="signup-container">
       <h1>Sign Up</h1>
       {showOtpInput ? (
         isOtpVerified ? (
@@ -177,6 +180,9 @@ function SignUp() {
             <a className='go-to-login' href='/login'>Go to Login</a></p>
         </div>
       )}
+      </div>
+      </div>
+    </div>
     </div>
   );
 }

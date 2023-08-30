@@ -61,14 +61,7 @@
 
 /* ... (rest of your CSS code) */
 
-.month-cell {
-  cursor: pointer;
-  /* padding: 5px 0px; */
-  border: 1px solid #ccc;
-  margin-right: 9px;
-  margin-left: 9px;
-  border-radius: 5px;
-}
+
 
 .month-img{
   margin-top: 10%;
@@ -246,4 +239,70 @@
   border-radius: 4px;
   font-size: 12px;
   white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .calendar-container {
+    flex-direction: column; /* Stack elements vertically */
+  }
+
+  .month-img {
+    margin: auto; /* Center the image horizontally */
+    width: 100%; /* Adjust the width to fit smaller screens */
+    height: auto; /* Allow height to adjust proportionally */
+  }
+
+  .calendar {
+    padding: 10px; /* Reduce padding for smaller screens */
+  }
+
+  .controls{
+    margin-left: 7%;
+  }
+  /* Adjust size of date cells and month cells */
+  .date-grid {
+    width: 90%; /* Adjust the grid width to fit smaller screens */
+    margin: auto; /* Center the grid horizontally */
+    grid-template-columns: repeat(7, 1fr); /* Keep the grid columns */
+    grid-gap: 3px; /* Reduce gap between cells */
+  }
+
+  .date-cell {
+    padding: 5px;
+    font-size: 12px; /* Adjust font size for readability */
+  }
+
+  /* Reduce the width of month cells for mobile view */
+  .month-cell {
+    padding: 2px 3px; /* Adjust padding for smaller cells */
+    font-size: 12px; /* Adjust font size for readability */
+  }
+
+  
+  .year-selector,
+  .month-selector {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .year-selector input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .month-selector {
+    display: flex;
+    flex-wrap: wrap; /* Allow month cells to wrap */
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .month-cell {
+    float: left;
+    width: 10%;
+    padding: 2px 3px; /* Reset the padding for month cells */
+    flex: 1; /* Allow month cells to grow and shrink within the row */
+  }
 }

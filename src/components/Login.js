@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import './styles/Login.css';
 
-function Login({updateLoggedUser }) {
-  const navigate = useNavigate()
+function Login({ updateLoggedUser }) {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -35,20 +35,16 @@ function Login({updateLoggedUser }) {
       // Check if the user exists
       const response = await fetch(`https://oneshot-ai-backend.onrender.com/get-user`);
       const userData = await response.json();
-      let data=userData.payload;
-      let user=data.find(obj=>obj.email==email)
-      if (user==undefined) {
+      let data = userData.payload;
+      let user = data.find(obj => obj.email === email);
+      if (user === undefined) {
         setLoginError('User not found');
         return;
       }
-      // console.log(data);
-      // console.log(password);
-      // If the user exists, check the password
       if (user.password === password) {
-        // Navigate to home (replace this with your navigation logic)
         updateLoggedUser(user.email);
         localStorage.setItem('loggedUser', user.email);
-        navigate("/home")
+        navigate("/home");
         console.log('Login successful, navigating to home...');
       } else {
         setLoginError('Invalid password');
@@ -60,26 +56,32 @@ function Login({updateLoggedUser }) {
   };
 
   return (
-    <div className="login-container">
-      <h1>Login</h1>
-      <input
-        className='login-input'
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      {emailError && <div className='error-message'>{emailError}</div>}
-      <input
-        className='login-input'
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {passwordError && <div className='error-message'>{passwordError}</div>}
-      {loginError && <div className='error-message'>{loginError}</div>}
-      <button className='loginButton' onClick={handleLogin}>Login</button>
+    <div className="container">
+      <div className="row justify-content-center">
+        <div className="col-md-6 col-lg-4">
+          <div className="login-container">
+            <h1>Login</h1>
+            <input
+              className='login-input'
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {emailError && <div className='error-message'>{emailError}</div>}
+            <input
+              className='login-input'
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {passwordError && <div className='error-message'>{passwordError}</div>}
+            {loginError && <div className='error-message'>{loginError}</div>}
+            <button className='loginButton' onClick={handleLogin}>Login</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

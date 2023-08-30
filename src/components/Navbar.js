@@ -47,7 +47,7 @@ const Navbar = ({ loggedUser, updateLoggedUser }) => {
             Menu
           </button>
         )}
-        <ul className={`navbar-links ${menuActive ? 'active' : ''}`}>
+        <ul className={`navbar-links ${menuActive ? 'active' : ''}`} onClick={() => setMenuActive(!menuActive)} >
           <li>
             <Link to="/">Home</Link>
           </li>

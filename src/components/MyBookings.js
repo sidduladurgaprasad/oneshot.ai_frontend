@@ -54,7 +54,8 @@ function MyBookings({ loggedUser }) {
       ) : (
         <div className="booking-cards">
           {bookings.map((booking) => (
-            <div key={booking._id} className="booking-card">
+            <div key={booking._id} className="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+            <div className="booking-card">
               {/* <h2>Booking Details</h2> */}
               <p><b>Date:</b> {booking.date}-{months[booking.month-1]}-{booking.year}</p>
               <p><b>Slot:</b> {timeSlots[booking.slot-1]}</p>
@@ -64,6 +65,7 @@ function MyBookings({ loggedUser }) {
               >
                 Cancel Booking
               </button>
+              </div>
             </div>
           ))}
         </div>
