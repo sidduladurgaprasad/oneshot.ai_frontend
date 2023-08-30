@@ -7,9 +7,11 @@ import Calendar from './components/Calendar';
 import { Route, Routes } from 'react-router-dom';
 import MyBookings from './components/MyBookings';
 import {useNavigate} from 'react-router-dom'
+import Chatbot from './components/ChatBot';
+
 
 function App() {
-  const [loggedUser, setLoggedUser] = useState();
+  const [loggedUser, setLoggedUser] = useState("user");
   const navigate = useNavigate()
 
   // Function to update the loggedUser state
@@ -44,6 +46,7 @@ function App() {
         <Route path='/calender' element={<Calendar loggedUser={loggedUser}/>} />
         <Route path='/mybookings' element={<MyBookings loggedUser={loggedUser}/>} />
       </Routes>
+      <Chatbot />
     </div>
   );
 }

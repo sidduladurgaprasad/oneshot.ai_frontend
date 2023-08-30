@@ -1,0 +1,135 @@
+/* Styling for the chatbot icon */
+.chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 9999;
+  }
+  
+  .chatbot-icon img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .chatbot-icon img:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Styling for the chat window */
+  .chat-window {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 320px;
+    height: 500px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Styling for the chat header */
+  .chat-header {
+    background-color: #308cb0;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .chat-header h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .chat-header button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  /* Styling for the chat body */
+  .chat-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+  }
+  
+  .message {
+    max-width: 80%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .message .icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+  
+  .message.chatbot .icon {
+    background-image: url('https://media.istockphoto.com/id/1010001882/vector/%C3%B0%C3%B0%C2%B5%C3%B1%C3%B0%C3%B1%C3%B1.jpg?s=612x612&w=0&k=20&c=1jeAr9KSx3sG7SKxUPR_j8WPSZq_NIKL0P-MA4F1xRw='); /* Replace with your chatbot icon image path */
+  }
+  
+  .message.user .icon {
+    background-image: url('https://t3.ftcdn.net/jpg/05/17/79/88/360_F_517798849_WuXhHTpg2djTbfNf0FQAjzFEoluHpnct.jpgg'); /* Replace with your user icon image path */
+  }
+  
+  .message-content {
+    flex: 1;
+  }
+  
+  .message.chatbot {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  
+  .message.user {
+    background-color: #308cb0;
+    color: white;
+    align-self: flex-end;
+    text-align: right; /* Align user's message to the right */
+  }
+  
+  
+  
+  /* Styling for the chat input */
+  .chat-input {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ccc;
+  }
+  
+  .chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+  }
+  
+  .chat-input button {
+    background-color: #308cb0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  

@@ -3,7 +3,19 @@ import './styles/MyBookings.css'; // Import your CSS file
 
 function MyBookings({ loggedUser }) {
   const [bookings, setBookings] = useState([]);
-
+  const timeSlots = [
+    '9:30 AM - 10:30 AM',
+    '10:30 AM - 11:30 AM',
+    '11:30 AM - 12:30 PM',
+    '12:30 PM - 1:30 PM',
+    '1:30 PM - 2:30 PM',
+    '2:30 PM - 3:30 PM',
+    // ... Add more time slots as needed
+  ];
+  const months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
   useEffect(() => {
     fetch(`https://oneshot-ai-backend.onrender.com/get-booking`)
       .then((response) => response.json())
@@ -27,6 +39,7 @@ function MyBookings({ loggedUser }) {
     .then(data => {
       // Remove the deleted booking from the state
       setBookings(prevBookings => prevBookings.filter(booking => booking._id !== bookingId));
+      
     })
     .catch(error => {
       console.error('Error in deleting booking:', error);
@@ -35,21 +48,21 @@ function MyBookings({ loggedUser }) {
 
   return (
     <div className="my-bookings-container">
-      <h1>My Bookings</h1>
+      <h2>Your Bookings</h2>
       {bookings.length === 0 || !loggedUser ? (
         <p>No bookings found.</p>
       ) : (
         <div className="booking-cards">
           {bookings.map((booking) => (
             <div key={booking._id} className="booking-card">
-              <h2>Booking Details</h2>
-              <p>Date: {booking.date}/{booking.month}/{booking.year}</p>
-              <p>Slot: {booking.slot}</p>
+              {/* <h2>Booking Details</h2> */}
+              <p><b>Date:</b> {booking.date}-{months[booking.month-1]}-{booking.year}</p>
+              <p><b>Slot:</b> {timeSlots[booking.slot-1]}</p>
               <button
                 className="delete-button"
                 onClick={() => handleDeleteBooking(booking._id)}
               >
-                Delete
+                Cancel Booking
               </button>
             </div>
           ))}

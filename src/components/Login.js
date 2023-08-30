@@ -38,7 +38,7 @@ function Login({updateLoggedUser }) {
       let data=userData.payload;
       let user=data.find(obj=>obj.email==email)
       if (user==undefined) {
-        setLoginError('Email not found');
+        setLoginError('User not found');
         return;
       }
       // console.log(data);

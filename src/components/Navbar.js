@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 const Navbar = ({ loggedUser ,  updateLoggedUser}) => {
   function handleLogout() {
     if(window.confirm("Click OK to Logout")){
-      localStorage.removeItem('loggedUser'); // Clear user data from local storage
+      localStorage.removeItem('loggedUser');
+       // Clear user data from local storage
       updateLoggedUser();
     }
   };
