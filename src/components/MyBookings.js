@@ -48,7 +48,7 @@ function MyBookings({ loggedUser }) {
 
   return (
     <div className="my-bookings-container">
-      <h2>Your Bookings</h2>
+      {/* <h2>Your Bookings</h2> */}
       {bookings.length === 0 || !loggedUser ? (
         <p>No bookings found.</p>
       ) : (

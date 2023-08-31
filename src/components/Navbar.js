@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './styles/Navbar.css';
 import icon from './images/icon.jpg';
 import { Link } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+
 
 const Navbar = ({ loggedUser, updateLoggedUser }) => {
   const [menuActive, setMenuActive] = useState(false);
@@ -24,13 +27,40 @@ const Navbar = ({ loggedUser, updateLoggedUser }) => {
   }, [windowWidth]);
 
   function handleLogout() {
-    if (window.confirm('Click OK to Logout')) {
       localStorage.removeItem('loggedUser');
+      
       updateLoggedUser();
-    }
+      setShow(false);
   }
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
+    <>
+    <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Do You Want To Logout </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+              Click Ok to Logout
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            {(
+              <Button className="book-button" onClick={handleLogout}>
+                Ok
+              </Button>
+            )}
+          </Modal.Footer>
+        </Modal>
     <nav className="navbar">
       <div className="navbar-left">
         <img className="navbar-icon" src={icon} alt="Icon" />
@@ -60,7 +90,7 @@ const Navbar = ({ loggedUser, updateLoggedUser }) => {
                 <Link to="/mybookings">My Bookings</Link>
               </li>
               <li>
-                <Link onClick={handleLogout}>Logout</Link>
+                <Link onClick={handleShow}>Logout</Link>
               </li>
             </>
           ) : (
@@ -76,6 +106,7 @@ const Navbar = ({ loggedUser, updateLoggedUser }) => {
         </ul>
       </div>
     </nav>
+    </>
   );
 };
 

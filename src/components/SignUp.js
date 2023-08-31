@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import emailjs from '@emailjs/browser';
+import { useNavigate } from 'react-router-dom';
 import './styles/SignUp.css'; // Import your CSS file
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 function SignUp() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [enteredOtp, setEnteredOtp] = useState('');
   const [generatedOtp, setGeneratedOtp] = useState('');
@@ -11,6 +15,8 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [accountCreated, setAccountCreated] = useState(false);
+  const [modelTitle, setModelTitle] = useState();
+  const [modelBody, setModelBody] = useState();
 
   const validateEmail = (email) => {
     // Basic email validation using regular expression
@@ -25,6 +31,9 @@ function SignUp() {
     // Convert the generated OTP to a string
     return generated.toString();
   };
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleSendOTP = () => {
     // Handle sending OTP logic (e.g., send email to server and set state to show OTP input)
@@ -36,7 +45,9 @@ function SignUp() {
           let user=users.find(obj=>obj.email==email)
           console.log(user);
           if (user) {
-            alert('An account with this email already exists.');
+            setModelTitle("An account with this email already exists");
+            setModelBody('you can Login to SlotBooker365 and Start Booking your slots');
+            handleShow();
           }
           else{
             const randomOTP = generateRandomOTP();
@@ -58,7 +69,9 @@ function SignUp() {
             console.error('Error checking account:', error);
           });
     } else {
-      alert('Invalid email address. Please enter a valid email.');
+      setModelTitle("Problem With Email");
+      setModelBody("Invalid email address. Please enter a valid email.");
+      handleShow();
     }
   };
 
@@ -67,7 +80,9 @@ function SignUp() {
     if (enteredOtp === generatedOtp) { // Use 'generatedOtp' instead of 'otp'
       setIsOtpVerified(true);
     } else {
-      alert('Invalid OTP. Please try again.');
+      setModelTitle("Problem With OTP");
+      setModelBody("Invalid OTP. Please try again.");
+      handleShow();
     }
   };
 
@@ -85,8 +100,9 @@ function SignUp() {
           } else {
             // Handle account creation logic
             setAccountCreated(true);
-            alert('Account created successfully!');
-  
+            setModelTitle("Account Created successfully ");
+            setModelBody("Now you can Login to SlotBooker365 and Start Booking your slots");
+            handleShow();
             // Prepare user data for sending
             const userData = {
               email: email,
@@ -114,13 +130,36 @@ function SignUp() {
           console.error('Error checking account:', error);
         });
     } else {
-      alert('Passwords do not match. Please try again.');
+      setModelTitle("Passwords not matched");
+      setModelBody("Both provided passwords are different. Please try again.");
+      handleShow();
     }
   };
   
 
 
   return (
+    <>
+     <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>{modelTitle}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {modelBody}
+          </Modal.Body>
+          <Modal.Footer>
+            {(
+              <Button className="book-button" onClick={handleClose}>
+                Ok
+              </Button>
+            )}
+          </Modal.Footer>
+        </Modal>
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-6 col-lg-4">
@@ -132,7 +171,7 @@ function SignUp() {
             {accountCreated ? (
               <div>
                 <p className="success-message">Account created successfully!</p>
-                <button className="go-to-login-button" onClick={() => alert('Navigate to login page')}>Go to Login</button>
+                <button className="go-to-login-button" onClick={() => navigate("/login")}>Go to Login</button>
               </div>
             ) : (
               <div className="password-section">
@@ -184,6 +223,7 @@ function SignUp() {
       </div>
     </div>
     </div>
+    </>
   );
 }
 

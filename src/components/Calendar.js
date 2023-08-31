@@ -54,7 +54,7 @@ function Calendar({ loggedUser }) {
   const [bookingUpdated, setBookingUpdated] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState('');
   const [buttonClicked, setButtonClicked] = useState(false);
-
+  const [bookingSuccess, setBookingSuccess] = useState(false);
 
 
   const handlePrevYear = () => {
@@ -181,6 +181,7 @@ const getAvailableSlotsCount = (year, month, date) => {
 
   const handleBooking = () => {
     setButtonClicked(true);
+    setBookingSuccess(true);
     if (selectedDate !== null && selectedSlot !== null) {
       const bookingData = {
         user: loggedUser,
@@ -216,7 +217,8 @@ const getAvailableSlotsCount = (year, month, date) => {
         setSelectedSlot(null);
         setSelectedDate(null);
         handleClose();
-       
+        setBookingSuccess(false);
+        
       })
       .catch(error => {
         console.error('Error in booking:', error);
@@ -237,221 +239,124 @@ const getAvailableSlotsCount = (year, month, date) => {
 
   return (
     <>
-    <>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Select a Time Slot on {expandedDate}/{selectedMonth + 1}/{selectedYear}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <div className="slot-options">
-            {timeSlots.map((slot, index) => (
-               <label key={index} className={`slot-option ${isSlotBooked(selectedYear, selectedMonth+1, expandedDate, index+1) ? 'disabled' : ''}`}>
-                <input
-                  type="radio"
-                  name="timeSlot"
-                  value={slot}
-                  checked={selectedSlot === slot}
-                  onChange={() => handleSlotSelect(slot)}
-                  disabled={isSlotBooked(selectedYear, selectedMonth+1, expandedDate, index+1)}
-                />
-                {slot}
-              </label>
-            ))}
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          {selectedSlot !== null && (
-            <Button className="book-button" onClick={handleBooking}  disabled={buttonClicked}>
-              Book Slot
+      <>
+        <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Select a Time Slot on {expandedDate}/{selectedMonth + 1}/{selectedYear}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+          <div className="slot-options">
+              {timeSlots.map((slot, index) => (
+                <label key={index} className={`slot-option ${isSlotBooked(selectedYear, selectedMonth+1, expandedDate, index+1) ? 'disabled' : ''}`}>
+                  <input
+                    type="radio"
+                    name="timeSlot"
+                    value={slot}
+                    checked={selectedSlot === slot}
+                    onChange={() => handleSlotSelect(slot)}
+                    disabled={isSlotBooked(selectedYear, selectedMonth+1, expandedDate, index+1)}
+                  />
+                  {slot}
+                </label>
+              ))}
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
             </Button>
+            {selectedSlot !== null && (
+              <Button className="book-button" onClick={handleBooking}  disabled={buttonClicked}>
+                Book Slot
+              </Button>
+            )}
+          </Modal.Footer>
+          {/* Display the booking success message */}
+          {bookingSuccess && (
+            <div className="booking-success-animation">
+              Booking Successful!
+            </div>
           )}
-        </Modal.Footer>
-      </Modal>
-    </>
-    <div className="calendar-container">
-      <div className="calendar-header">
-        {/* Navbar Content */}
-      </div>
-      <div className="row">
-        <div className="col-12">
-          <img className="month-img" src={backgroundImage} alt="Month" />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-12">
-          <div className="year-selector">
-          <button onClick={handlePrevYear}>&lt;</button>
-            <input
-              type="number"
-              id="year"
-              value={selectedYear}
-              
-              onChange={(e) => setSelectedYear(parseInt(e.target.value)) }
-            readonly/>
-            <button onClick={handleNextYear}>&gt;</button>
-          </div>
-          <div className="controls">
-          {months.map((month, index) => (
-              <div
-                key={index}
-                className={`month-cell ${index === selectedMonth ? 'selected' : ''}`}
-                onClick={() => handleMonthClick(index)}
-              >
-                {month}
-              </div>
-            ))}
+        </Modal>
+      </>
+      {loggedUser ? (
+        <div className="calendar-container">
+        {/* <div className="calendar-header">
+          
+        </div> */}
+        <div className="row">
+          <div className="col-12">
+            <img className="month-img" src={backgroundImage} alt="Month" />
           </div>
         </div>
-      </div>
-      <div className="row">
-        <div className="col-12">
-          <div className={`calendar ${expandedDate !== null ? 'expanded' : ''}`}>
-            <div className="date-grid">
-              {[...Array(getDaysInMonth(selectedYear, selectedMonth)).keys()].map(day => (
-                <div className="date-cell">
-                  <div
-                    key={day}
-                    className={`circle
-                      ${day + 1 === selectedDate ? 'selected' : ''}
-                      ${isDateDisabled(selectedYear, selectedMonth, day + 1) ? 'disabled' : ''}
-                      ${isDateFullyBooked(selectedYear, selectedMonth + 1, day + 1) ? 'fully-booked' : ''}
-                      ${isDatePartiallyBooked(selectedYear, selectedMonth + 1, day + 1) && !isDateDisabled(selectedYear, selectedMonth, day + 1) ? 'partially-booked' : ''}
-                    `}
-                    onClick={() => handleDateClick(day + 1)}
-                    data-cannot-book={isDateDisabled(selectedYear, selectedMonth, day + 1)}
-                    data-all-booked={isDateFullyBooked(selectedYear, selectedMonth + 1, day + 1)}
-                    data-available-slots={getAvailableSlotsCount(selectedYear, selectedMonth + 1, day + 1)}
-                  >
-                    <span className="day-name">{getDayName(selectedYear, selectedMonth, day + 1)}</span>
-                    {day + 1}
-                  </div>
+        <div className="row">
+          <div className="col-12">
+            <div className="year-selector">
+            <button onClick={handlePrevYear}>&lt;</button>
+              <input
+                type="number"
+                id="year"
+                value={selectedYear}
+                
+                onChange={(e) => setSelectedYear(parseInt(e.target.value)) }
+              readonly/>
+              <button onClick={handleNextYear}>&gt;</button>
+            </div>
+            <div className="controls">
+            {months.map((month, index) => (
+                <div
+                  key={index}
+                  className={`month-cell ${index === selectedMonth ? 'selected' : ''}`}
+                  onClick={() => handleMonthClick(index)}
+                >
+                  {month}
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    </>
-  );
-  
-
-  return (
-    <>
-    <>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Select a Time Slot on {expandedDate}/{selectedMonth + 1}/{selectedYear}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <div className="slot-options">
-            {timeSlots.map((slot, index) => (
-               <label key={index} className={`slot-option ${isSlotBooked(selectedYear, selectedMonth+1, expandedDate, index+1) ? 'disabled' : ''}`}>
-                <input
-                  type="radio"
-                  name="timeSlot"
-                  value={slot}
-                  checked={selectedSlot === slot}
-                  onChange={() => handleSlotSelect(slot)}
-                  disabled={isSlotBooked(selectedYear, selectedMonth+1, expandedDate, index+1)}
-                />
-                {slot}
-              </label>
-            ))}
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          {selectedSlot !== null && (
-            <Button className="book-button" onClick={handleBooking}  disabled={buttonClicked}>
-              Book Slot
-            </Button>
-          )}
-        </Modal.Footer>
-      </Modal>
-    </>
-    {loggedUser ? (
-      <div className="calendar-container" >
-        <div><img className='month-img' src={backgroundImage}></img></div>
-      <div className={`calendar ${expandedDate !== null ? 'expanded' : ''}`}>
-        <div className="calendar-header">
-          <div>
-          <div className="year-selector">
-            <button onClick={handlePrevYear}>&lt;</button>
-            <input
-              type="number"
-              id="year"
-              value={selectedYear}
-              
-              onChange={(e) => setSelectedYear(parseInt(e.target.value)) }
-            readonly/>
-            <button onClick={handleNextYear}>&gt;</button>
-          </div>
-          <div className="controls">
-          
-            {months.map((month, index) => (
-              <div
-                key={index}
-                className={`month-cell ${index === selectedMonth ? 'selected' : ''}`}
-                onClick={() => handleMonthClick(index)}
-              >
-                {month}
+        <div className="row">
+          <div className="col-12">
+            <div className={`calendar ${expandedDate !== null ? 'expanded' : ''}`}>
+              <div className="date-grid">
+                {[...Array(getDaysInMonth(selectedYear, selectedMonth)).keys()].map(day => (
+                  <div className="date-cell">
+                    <div
+                      key={day}
+                      className={`circle
+                        ${day + 1 === selectedDate ? 'selected' : ''}
+                        ${isDateDisabled(selectedYear, selectedMonth, day + 1) ? 'disabled' : ''}
+                        ${isDateFullyBooked(selectedYear, selectedMonth + 1, day + 1) ? 'fully-booked' : ''}
+                        ${isDatePartiallyBooked(selectedYear, selectedMonth + 1, day + 1) && !isDateDisabled(selectedYear, selectedMonth, day + 1) ? 'partially-booked' : ''}
+                      `}
+                      onClick={() => handleDateClick(day + 1)}
+                      data-cannot-book={isDateDisabled(selectedYear, selectedMonth, day + 1)}
+                      data-all-booked={isDateFullyBooked(selectedYear, selectedMonth + 1, day + 1)}
+                      data-available-slots={getAvailableSlotsCount(selectedYear, selectedMonth + 1, day + 1)}
+                    >
+                      <span className="day-name">{getDayName(selectedYear, selectedMonth, day + 1)}</span>
+                      {day + 1}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-            
+            </div>
           </div>
-          </div>
-        <div className="date-grid">
-  {[...Array(getDaysInMonth(selectedYear, selectedMonth)).keys()].map(day => (
-    <div className='date-cell'>
-      <div
-        key={day}
-        className={`circle
-          ${day + 1 === selectedDate ? 'selected' : ''}
-          ${isDateDisabled(selectedYear, selectedMonth, day + 1) ? 'disabled' : ''}
-          ${isDateFullyBooked(selectedYear, selectedMonth + 1, day + 1) ? 'fully-booked' : ''}
-          ${isDatePartiallyBooked(selectedYear, selectedMonth + 1, day + 1) && !isDateDisabled(selectedYear, selectedMonth, day + 1) ? 'partially-booked' : ''}
-        `}
-        onClick={() => handleDateClick(day + 1)}
-        data-cannot-book={isDateDisabled(selectedYear, selectedMonth, day + 1)}
-        data-all-booked={isDateFullyBooked(selectedYear, selectedMonth + 1, day + 1)}
-        data-available-slots={getAvailableSlotsCount(selectedYear, selectedMonth + 1, day + 1)}
-      >
-        <span className="day-name">{getDayName(selectedYear, selectedMonth, day + 1)}</span>
-        {day + 1}
+        </div>
       </div>
-    </div>
-  ))}
-</div>
-</div>
-
-
-      </div>
-      
-    </div>
-    )
-    :
-    (
-      <div>
-        Login to access Calendar
-      </div>
-    )
-  }
+      )
+      :
+      (
+        <div>
+          Login to access Calendar
+        </div>
+      )
+      }
     </>
     
   );

@@ -268,7 +268,7 @@
 
   .date-cell {
     padding: 5px;
-    font-size: 12px; /* Adjust font size for readability */
+    font-size: 9px; /* Adjust font size for readability */
   }
 
   /* Reduce the width of month cells for mobile view */
@@ -299,10 +299,35 @@
     align-items: center;
   }
 
+  .day-name {
+    display: block;
+    font-size: 8px;
+  }
+
   .month-cell {
     float: left;
     width: 10%;
     padding: 2px 3px; /* Reset the padding for month cells */
     flex: 1; /* Allow month cells to grow and shrink within the row */
+  }
+}
+
+/* ... (other CSS rules) */
+
+.booking-success-animation {
+  color: green;
+  font-size: 150%;
+  animation: fadeInOut 5s;
+  margin-bottom: 5%; /* Change duration as needed */
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(0%); /* Adjust distance as needed */
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(40%);
   }
 }

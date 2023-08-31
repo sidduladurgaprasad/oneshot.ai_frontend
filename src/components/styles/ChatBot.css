@@ -123,8 +123,9 @@
     font-size: 14px;
   }
   
-  .chat-input button {
+  .check-button {
     background-color: #308cb0;
+    left: 20%;
     color: white;
     border: none;
     border-radius: 5px;
