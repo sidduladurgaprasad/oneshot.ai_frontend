@@ -21,6 +21,7 @@ const HomePage = ({ loggedUser }) => {
             (loggedUser) 
             ? 
             <Link to='/calender'> <button className='getStartedButton' >Start Booking</button></Link> 
+            
             :
             <Link to='/signup'> <button className='getStartedButton' >Get Started</button></Link> 
           }

@@ -14,7 +14,23 @@ function App() {
   const [loggedUser, setLoggedUser] = useState();
   const navigate = useNavigate()
 
+  let time = new Date().getTime();
+  const setActivityTime = (e) => {
+    time = new Date().getTime();
+  }
+  document.body.addEventListener("mousemove", setActivityTime);
+  document.body.addEventListener("keypress", setActivityTime);
+  const refresh = () => {
+    if (new Date().getTime() - time >= 14*60000) {
+      window.location.reload(true);
+    } else {
+      setTimeout(refresh, 60);
+    }
+  }
+  setTimeout(refresh, 60);
+  
   // Function to update the loggedUser state
+
   useEffect(() => {
     const storedUser = localStorage.getItem('loggedUser');
     if (storedUser) {

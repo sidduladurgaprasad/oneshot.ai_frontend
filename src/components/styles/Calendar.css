@@ -19,6 +19,11 @@
   margin-bottom: 20px;
 }
 
+.year{
+  font-weight: bolder;
+  margin-top: 20%;
+  margin-right: 5%;
+}
 /* Year selector */
 .year-selector {
   display: flex;

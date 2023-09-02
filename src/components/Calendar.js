@@ -298,13 +298,14 @@ const getAvailableSlotsCount = (year, month, date) => {
           <div className="col-12">
             <div className="year-selector">
             <button onClick={handlePrevYear}>&lt;</button>
-              <input
+            <p className='year'>{selectedYear}</p>
+              {/* <input
                 type="number"
                 id="year"
                 value={selectedYear}
                 
                 onChange={(e) => setSelectedYear(parseInt(e.target.value)) }
-              readonly/>
+              readonly/> */}
               <button onClick={handleNextYear}>&gt;</button>
             </div>
             <div className="controls">

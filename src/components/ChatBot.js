@@ -6,10 +6,22 @@ import './styles/ChatBot.css';
 const Chatbot = () => {
   const [showChat, setShowChat] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [availabilityStatus, setAvailabilityStatus] = useState(null);
+  const [showPopup, setShowPopup] = useState(true);
+
+  useEffect(() => {
+    if (window.innerWidth <= 768) {
+      const timeoutId = setTimeout(() => {
+        setShowPopup(false);
+      }, 6000);
+      return () => clearTimeout(timeoutId);
+    }
+    else{
+      setShowPopup(true);
+    }
+  }, [window.innerWidth]); 
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -18,6 +30,7 @@ const Chatbot = () => {
   const handleSlotSelect = (event) => {
     setSelectedSlot(event.target.value);
   };
+
   
   const datePickerComponent = (
     <>
@@ -28,7 +41,14 @@ const Chatbot = () => {
         minDate={new Date()}
         placeholderText="Select a date"
       />
-      <p>Please choose a time slot:</p>
+    
+
+    </>
+  );
+
+  const slotPickerComponent = (
+    <>    
+      {/* <p>Please choose a time slot:</p> */}
       <select value={selectedSlot} onChange={handleSlotSelect}>
         <option value="0">Select a time slot</option>
         <option value="1">9:30 AM - 10:30 AM</option>
@@ -39,17 +59,17 @@ const Chatbot = () => {
         <option value="6">2:30 AM - 3:30 AM</option>
         {/* Add more options for other time slots */}
       </select>
-
-    </>
+      </>
   );
 
   useEffect(() => {
     if (showChat) {
      
       setMessages([
-        { text: 'Welcome!', sender: 'chatbot' },
-        { text: 'Please select a date for booking:', sender: 'chatbot' },
+        { text: 'Hello! User', sender: 'chatbot' },
+        { text: "Welcome to BookEase Bot! I'm here to make your booking experience smooth. Just let me know your preferred date and time, and I'll check availability.", sender: 'chatbot' },
         { text: datePickerComponent, sender: 'chatbot' },
+        { text: slotPickerComponent, sender: 'chatbot' }
       ]);
     }
   }, [showChat, selectedDate, selectedSlot]);
@@ -63,37 +83,38 @@ const Chatbot = () => {
       alert('Please select a date and time slot first.');
       return;
     }
-  
+    // Check if there is a booking for the selected date and slot
+    const selectedYear = selectedDate.getFullYear();
+    const selectedMonth = selectedDate.getMonth()+1;
+    const selectedDay = selectedDate.getDate();
     // Make the fetch request to get the bookings
+    // alert(selectedYear+","+selectedMonth+","+selectedDay+","+selectedSlot);
     fetch('https://oneshot-ai-backend.onrender.com/get-booking')
       .then(response => response.json())
       .then(data => {
         const bookings = data.payload;
   
-        // Check if there is a booking for the selected date and slot
-        const selectedYear = selectedDate.getFullYear();
-        const selectedMonth = selectedDate.getMonth();
-        const selectedDay = selectedDate.getDate();
+        
         
         const isBooked = bookings.some(booking => {
-          console.log(booking.year , selectedYear);
-          console.log(booking.month , selectedMonth);
-          console.log(booking.date , selectedDay);
-          console.log(booking.slot , parseInt(selectedSlot));
+          // console.log(booking.year , selectedYear);
+          // console.log(booking.month , selectedMonth);
+          // console.log(booking.date , selectedDay);
+          // console.log(booking.slot , parseInt(selectedSlot));
+          // alert(booking.year+","+booking.month+","+booking.date+","+booking.slot);
           return (
-            booking.year === selectedYear &&
-            booking.month === selectedMonth+1 &&
-            booking.date === selectedDay &&
-            booking.slot === parseInt(selectedSlot)
+            booking.year == selectedYear &&
+            booking.month == selectedMonth &&
+            booking.date == selectedDay &&
+            booking.slot == selectedSlot
           );
         });
-  
-        if (isBooked) {
-          setAvailabilityStatus('This slot is already booked.');
-        } else {
-          setAvailabilityStatus('This slot is available.');
-        }
-        Reply(availabilityStatus);
+        
+          const newStatus = isBooked
+          ? 'This slot is already booked.'
+          : 'This slot is available.';
+        setAvailabilityStatus(newStatus);
+        Reply(newStatus);
       })
       .catch(error => {
         console.error('Error fetching bookings:', error);
@@ -108,7 +129,7 @@ const Chatbot = () => {
       <div className="chatbot-icon" onClick={() => setShowChat(!showChat)}>
       <img src="https://media.istockphoto.com/id/1010001882/vector/%C3%B0%C3%B0%C2%B5%C3%B1%C3%B0%C3%B1%C3%B1.jpg?s=612x612&w=0&k=20&c=1jeAr9KSx3sG7SKxUPR_j8WPSZq_NIKL0P-MA4F1xRw=" alt="Chatbot Icon" width={"100%"} />
       </div>
-      {showChat && (
+      {showChat ? (
         <div className="chat-window">
           <div className="chat-header">
             <h2>BookEase Bot</h2>
@@ -117,7 +138,7 @@ const Chatbot = () => {
           <div className="chat-body">
             {messages.map((message, index) => (
               <div key={index} className={`message ${message.sender}`}>
-                <div className="icon"></div>
+                <div className="icon"><img src="https://media.istockphoto.com/id/1010001882/vector/%C3%B0%C3%B0%C2%B5%C3%B1%C3%B0%C3%B1%C3%B1.jpg?s=612x612&w=0&k=20&c=1jeAr9KSx3sG7SKxUPR_j8WPSZq_NIKL0P-MA4F1xRw=" alt="Chatbot Icon" width={"100%"} /></div>
                 <div className="message-content">{message.text}</div>
               </div>
             ))}
@@ -126,7 +147,15 @@ const Chatbot = () => {
             <button className='check-button' onClick={checkAvailability}>Check Status</button>
           </div>
         </div>
-      )}
+      ):
+      (
+        showPopup && (
+          <div className="popup">
+            <p><b>Slot Availability Checker &#128073;</b></p>
+          </div>
+        )
+      )
+      }
     </>
   );
 };
