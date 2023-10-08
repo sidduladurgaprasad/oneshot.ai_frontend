@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styles/Navbar.css';
-import icon from './images/icon.jpg';
+import icon from './images/logo.jpg';
 import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
